@@ -20,11 +20,6 @@ describe('Computer', function () {
   })
 
   it('should return -6 when the last winning move is not compuetrs', function () {
-    // board.setMove(0, 'x')
-    // board.setMove(1, 'x')
-    // board.setMove(2, 'x')
-    // board.setMove(3, 'o')
-    // board.setMove(4, 'o')
     board.spots = ['x', 'x', 'x', 'o', 'o', '', '', '', '']
     let expected = computer.moveScore(board, 'x', 4)
     assert.strictEqual(expected, -6)

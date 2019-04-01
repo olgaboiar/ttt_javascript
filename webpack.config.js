@@ -1,7 +1,7 @@
-var path = require('path');
+var path = require('path')
 module.exports = {
   entry: {
-  	bundle: './src/index.js',
+    bundle: './src/index.js'
   },
   output: {
     path: path.join(__dirname, 'dist'),
@@ -10,9 +10,9 @@ module.exports = {
   },
   module: {
     rules: [
-        { test: /\.js$/, exclude: /node_modules/, loader: 'babel-loader' },
-        { test: /\.css$/,
-            use: [ 'style-loader', 'css-loader' ]}
+      { test: /\.js$/, exclude: /node_modules/, loader: 'babel-loader' },
+      { test: /\.css$/,
+        use: [ 'style-loader', 'css-loader' ] }
     ]
   }
 }

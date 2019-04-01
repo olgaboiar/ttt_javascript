@@ -17,13 +17,15 @@ class Game {
   }
 
   setCurrentPlayer (player1, player2) {
-    if (player1.marker === 'x') {
-      this.currentPlayer = player1
-      this.nextPlayer = player2
-    } else {
-      this.currentPlayer = player2
-      this.nextPlayer = player1
-    }
+    this.currentPlayer = player1
+    this.nextPlayer = player2
+    // if (player1.marker === 'x') {
+    //   this.currentPlayer = player1
+    //   this.nextPlayer = player2
+    // } else {
+    //   this.currentPlayer = player2
+    //   this.nextPlayer = player1
+    // }
   }
 
   switch (currentPlayer, nextPlayer) {

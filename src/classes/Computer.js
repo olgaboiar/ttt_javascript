@@ -17,7 +17,6 @@ class Computer extends Player {
   }
 
   moveScore (board, lastMove, depth) {
-    // console.log(this)
     if (this.gameRules.win(board) && lastMove === this.marker) {
       return 10 - depth
     }

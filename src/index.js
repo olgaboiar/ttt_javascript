@@ -1,12 +1,14 @@
 import Board from './classes/Board'
 import Game from './classes/Game'
 import GameRules from './classes/GameRules'
-import WebUI from './classes/WebUI'
+import Web from './classes/Web'
+import UI from './classes/UI'
 
 function NewGame (humanSymbol, computerSymbol) {
   let gameRules = new GameRules()
   let gameBoard = new Board()
-  let ui = new WebUI(gameRules)
+  let web = new Web()
+  let ui = new UI(gameRules, web)
   let game = new Game(gameRules, gameBoard, ui)
   game.createPlayers(humanSymbol, computerSymbol, gameRules)
   game.printBoard()

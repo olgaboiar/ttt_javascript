@@ -1,6 +1,6 @@
 /* eslint-env mocha */
 const chai = require('chai')
-// const sinon     = require('sinon')
+const sinon     = require('sinon')
 const sinonChai = require('sinon-chai')
 const expect = chai.expect
 chai.use(sinonChai)
@@ -54,15 +54,15 @@ describe('Game', function () {
     expect(game.player2.marker).to.equal('o')
   })
 
-//   it('should never enter the loop because the board is tie', function () {
-//     let board = new Board()
-//     board.setMove(3, 'o')
-//     board.setMove(5, 'o')
-//     board.setMove(7, 'o')
-//     game.setCurrentPlayer(playerX, playerO)
-//     // game.setNextPlayer(playerX, playerO)
-//     let spy = sinon.spy(game.currentPlayer, 'move')
-//     game.play(board, game.currentPlayer, game.nextPlayer)
-//     expect(spy).to.not.have.been.called
-//   })
+  it('should never enter the loop because the board is tie', function () {
+    let board = new Board()
+    board.setMove(3, 'o')
+    board.setMove(5, 'o')
+    board.setMove(7, 'o')
+    game.setCurrentPlayer(playerX, playerO)
+    // game.setNextPlayer(playerX, playerO)
+    let spy = sinon.spy(game.currentPlayer, 'move')
+    game.play(board, game.currentPlayer, game.nextPlayer)
+    expect(spy).to.not.have.been.called()
+  })
 })
