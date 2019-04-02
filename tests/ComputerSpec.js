@@ -1,18 +1,24 @@
 /* eslint-env mocha */
 const assert = require('assert')
 const chai = require('chai')
+const sinon = require('sinon')
 const sinonChai = require('sinon-chai')
+const expect = chai.expect
 chai.use(sinonChai)
 const GameRules = require('./../src/classes/GameRules.js')
 const Computer = require('./../src/classes/Computer.js')
 const Board = require('./../src/classes/Board.js')
+const Web = require('./../src/classes/Web.js')
+const Ui = require('./../src/classes/Ui.js')
 
-var computer, board, gameRules
+var computer, board, gameRules, ui, web
 
 describe('Computer', function () {
   before(function () {
     gameRules = new GameRules()
-    computer = new Computer('o', null, null, gameRules)
+    web = new Web()
+    ui = new Ui(gameRules, web)
+    computer = new Computer(ui, 'o', gameRules)
   })
 
   beforeEach(function () {
@@ -26,40 +32,79 @@ describe('Computer', function () {
   })
 
   it('should return 6 when the last winning move is compuetrs', function () {
-    board.setMove(0, 'o')
-    board.setMove(1, 'o')
-    board.setMove(2, 'o')
-    board.setMove(3, 'x')
-    board.setMove(4, 'x')
+    board.spots = ['o', 'o', 'o', 'x', 'x', '', '', '', '']
     let expected = computer.moveScore(board, 'o', 4)
     assert.strictEqual(expected, 6)
   })
 
   it('should return 0 when board is tie and the last move is compuetrs', function () {
-    board.setMove(0, 'o')
-    board.setMove(1, 'x')
-    board.setMove(2, 'o')
-    board.setMove(3, 'o')
-    board.setMove(4, 'x')
-    board.setMove(5, 'x')
-    board.setMove(6, 'x')
-    board.setMove(7, 'o')
-    board.setMove(8, 'o')
+    board.spots = ['o', 'x', 'o', 'o', 'x', 'x', 'x', 'o', 'o']
     let expected = computer.moveScore(board, 'o', 4)
     assert.strictEqual(expected, 0)
   })
 
   it('should return 0 when board is tie and the last move is not compuetrs', function () {
-    board.setMove(0, 'x')
-    board.setMove(1, 'o')
-    board.setMove(2, 'x')
-    board.setMove(3, 'x')
-    board.setMove(4, 'o')
-    board.setMove(5, 'o')
-    board.setMove(6, 'o')
-    board.setMove(7, 'x')
-    board.setMove(8, 'x')
+    board.spots = ['x', 'o', 'x', 'x', 'o', 'o', 'o', 'x', 'x']
     let expected = computer.moveScore(board, 'x', 4)
     assert.strictEqual(expected, 0)
+  })
+
+  it('should return null for opponent symbol when it was not set', function () {
+    let actual = computer.opponent
+    assert.strictEqual(null, actual)
+  })
+
+  it('should return opponent symbol aftre it is set', function () {
+    computer.setOpponent('cupcake')
+    let expected = 'cupcake'
+    let actual = computer.opponent
+    assert.strictEqual(expected, actual)
+  })
+
+  it('should return computers symbol o when called with opponent symbol x', function () {
+    computer.setOpponent('x')
+    let expected = 'o'
+    let actual = computer.switchMarker('x')
+    assert.strictEqual(expected, actual)
+  })
+
+  it('should return opponent symbol x when called with computer symbol o', function () {
+    computer.setOpponent('x')
+    let expected = 'x'
+    let actual = computer.switchMarker('o')
+    assert.strictEqual(expected, actual)
+  })
+
+  it('should call the setOpponent method with opponent symbol as argument', function () {
+    let spy = sinon.spy(computer, 'setOpponent')
+    board.spots = ['x', 'x', '', 'o', 'o', '', '', '', '']
+    computer.getMove(board, 'x')
+    expect(spy).to.have.been.calledWith('x')
+  })
+
+  it('should call the calculateMoves method with the board andopponent symbol as arguments', function () {
+    let spy = sinon.spy(computer, 'calculateMoves')
+    board.spots = ['x', 'x', '', 'o', 'o', '', '', '', '']
+    computer.getMove(board, 'x')
+    expect(spy).to.have.been.calledWith(board, 'x')
+  })
+
+  it('should return 1 or 2 or 3 for a board with only those cell availabls', function () {
+    board.spots = ['x', '', '', '', 'o', 'x', 'o', 'o', 'x']
+    let possible = [1, 2, 3]
+    let actual = computer.randomMove(board)
+    assert(possible.includes(actual))
+  })
+
+  it('should return the max scored move when computers move', function () {
+    let expected = 2
+    let actual = computer.getBestMove([-3, 4, 2], [1, 2, 4], 'o')
+    assert.strictEqual(expected, actual)
+  })
+
+  it('should return the min scored move when opponents move', function () {
+    let expected = 1
+    let actual = computer.getBestMove([-3, 4, 2], [1, 2, 4], 'x')
+    assert.strictEqual(expected, actual)
   })
 })

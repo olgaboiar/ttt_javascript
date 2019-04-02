@@ -3,6 +3,7 @@ class Player {
     this.ui = ui
     this.symbol = symbol
     this.gameRules = gameRules
+    this.opponent = null
   }
 
   move (board, cell) {

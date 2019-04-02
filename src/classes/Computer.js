@@ -1,12 +1,16 @@
 const Player = require('./Player.js')
 const Board = require('./Board.js')
-var index, bestMove, opponent
+var index, bestMove
 class Computer extends Player {
   getMove (board, opponentSymbol) {
     // return this.randomMove(board)
-    opponent = opponentSymbol
+    this.setOpponent(opponentSymbol)
     this.calculateMoves(board, opponentSymbol)
     return bestMove
+  }
+
+  setOpponent (symbol) {
+    this.opponent = symbol
   }
 
   randomMove (board) {
@@ -30,10 +34,10 @@ class Computer extends Player {
   }
 
   switchMarker (marker) {
-    if (marker === opponent) {
+    if (marker === this.opponent) {
       return this.symbol
     } else {
-      return opponent
+      return this.opponent
     }
   }
 
@@ -44,6 +48,7 @@ class Computer extends Player {
       index = scores.indexOf(Math.min(...scores))
     }
     bestMove = moves[index]
+    return bestMove
   }
 
   calculateMoves (board, lastMove, depth = 0) {
