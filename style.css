@@ -36,11 +36,8 @@ select#gender option[value="donut"] {
     border-bottom: none;
 }
 
-.x, .o {
+.apple::after, .bacon::after, .broccoli::after, .cherry::after, .cookie::after, .cupcake::after, .donut::after, .egg::after, .fries::after, .ice-cream::after, .pepper::after, .pizza::after, .soda::after, .strawberry::after, .taco::after {
     cursor: not-allowed;
-}
-
-.x::after, .o::after {
     position: absolute;
 	width: calc(100% - 60px);
 	height: calc(100% - 60px);

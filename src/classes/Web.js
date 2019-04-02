@@ -11,28 +11,28 @@ class Web {
   printBoard () {
     this.setBoard()
     this.board.innerHTML = '<div class="board_cell cell-0"></div>' +
-                          '<div class="board_cell cell-1"></div>' +
-                                  '<div class="board_cell cell-2"></div>' +
-                                  '<div class="board_cell cell-3"></div>' +
-                                  '<div class="board_cell cell-4"></div>' +
-                                  '<div class="board_cell cell-5"></div>' +
-                                  '<div class="board_cell cell-6"></div>' +
-                                  '<div class="board_cell cell-7"></div>' +
-                                  '<div class="board_cell cell-8"></div>'
+                           '<div class="board_cell cell-1"></div>' +
+                           '<div class="board_cell cell-2"></div>' +
+                           '<div class="board_cell cell-3"></div>' +
+                           '<div class="board_cell cell-4"></div>' +
+                           '<div class="board_cell cell-5"></div>' +
+                           '<div class="board_cell cell-6"></div>' +
+                           '<div class="board_cell cell-7"></div>' +
+                           '<div class="board_cell cell-8"></div>'
     this.htmlCells = [...this.board.children]
   }
 
   play (gameBoard, currentPlayer, nextPlayer, gameRules) {
     gameBoard.spots.forEach((cell, index) => {
       this.htmlCells[index].addEventListener('click', () => {
-        if (this.hasClass(this.htmlCells[index], 'x') || this.hasClass(this.htmlCells[index], 'o') || gameRules.gameOver(gameBoard)) return false
-        gameBoard.setMove(index, currentPlayer.marker)
+        if (this.hasClass(this.htmlCells[index], currentPlayer.symbol) || this.hasClass(this.htmlCells[index], nextPlayer.symbol) || gameRules.gameOver(gameBoard)) return false
+        gameBoard.setMove(index, currentPlayer.symbol)
         this.showMove(this.htmlCells[index], currentPlayer)
         if (gameRules.gameOver(gameBoard)) {
           this.showWinner(currentPlayer)
         } else {
-          let spot = nextPlayer.getMove(gameBoard)
-          gameBoard.setMove(spot, nextPlayer.marker)
+          let spot = nextPlayer.getMove(gameBoard, currentPlayer.symbol)
+          gameBoard.setMove(spot, nextPlayer.symbol)
           this.showMove(this.htmlCells[spot], nextPlayer)
           if (gameRules.gameOver(gameBoard)) this.showWinner(nextPlayer)
         }
@@ -41,12 +41,11 @@ class Web {
   }
 
   showMove (cell, player) {
-    this.addClass(cell, player.marker)
     this.addClass(cell, player.symbol)
   }
 
   showWinner (player) {
-    var elements = document.getElementsByClassName(player.marker)
+    var elements = document.getElementsByClassName(player.symbol)
     for (let item of elements) {
       this.addClass(item, 'win')
     }

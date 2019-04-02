@@ -1,10 +1,11 @@
 const Player = require('./Player.js')
 const Board = require('./Board.js')
-var index, bestMove
+var index, bestMove, opponent
 class Computer extends Player {
-  getMove (board) {
+  getMove (board, opponentSymbol) {
     // return this.randomMove(board)
-    this.bestMove(board, 'x')
+    opponent = opponentSymbol
+    this.calculateMoves(board, opponentSymbol)
     return bestMove
   }
 
@@ -17,10 +18,10 @@ class Computer extends Player {
   }
 
   moveScore (board, lastMove, depth) {
-    if (this.gameRules.win(board) && lastMove === this.marker) {
+    if (this.gameRules.win(board) && lastMove === this.symbol) {
       return 10 - depth
     }
-    if (this.gameRules.win(board) && lastMove !== this.marker) {
+    if (this.gameRules.win(board) && lastMove !== this.symbol) {
       return depth - 10
     }
     if (this.gameRules.tie(board)) {
@@ -29,14 +30,23 @@ class Computer extends Player {
   }
 
   switchMarker (marker) {
-    if (marker === 'x') {
-      return 'o'
+    if (marker === opponent) {
+      return this.symbol
     } else {
-      return 'x'
+      return opponent
     }
   }
 
-  bestMove (board, lastMove, depth = 0) {
+  getBestMove (scores, moves, currentMove) {
+    if (currentMove === this.symbol) {
+      index = scores.indexOf(Math.max(...scores))
+    } else {
+      index = scores.indexOf(Math.min(...scores))
+    }
+    bestMove = moves[index]
+  }
+
+  calculateMoves (board, lastMove, depth = 0) {
     let self = this
     let moves = []
     let scores = []
@@ -47,19 +57,14 @@ class Computer extends Player {
     board.availableSpots().forEach(function (spot) {
       let potentialBoard = new Board()
       potentialBoard.spots = board.spots
-      let initialValue = spot
+      let initialValue = potentialBoard.spots[spot]
       currentMove = self.switchMarker(lastMove)
       potentialBoard.setMove(spot, currentMove)
-      scores.push(self.bestMove(potentialBoard, currentMove, depth + 1))
+      scores.push(self.calculateMoves(potentialBoard, currentMove, depth + 1))
       moves.push(spot)
       potentialBoard.setMove(spot, initialValue)
     })
-    if (currentMove === this.marker) {
-      index = scores.indexOf(Math.max(...scores))
-    } else {
-      index = scores.indexOf(Math.min(...scores))
-    }
-    bestMove = moves[index]
+    this.getBestMove(scores, moves, currentMove)
     return scores[index]
   }
 }

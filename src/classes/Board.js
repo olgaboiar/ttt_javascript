@@ -6,7 +6,7 @@ class Board {
   availableSpots () {
     let availableSpots = []
     for (let i = 0; i < this.spots.length; i += 1) {
-      if (this.spots[i] !== 'x' && this.spots[i] !== 'o') {
+      if (this.spots[i] === '') {
         availableSpots.push(i)
       }
     }

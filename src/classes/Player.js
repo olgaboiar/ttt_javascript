@@ -1,13 +1,12 @@
 class Player {
-  constructor (marker, ui, symbol, gameRules) {
-    this.marker = marker
+  constructor (ui, symbol, gameRules) {
     this.ui = ui
     this.symbol = symbol
     this.gameRules = gameRules
   }
 
   move (board, cell) {
-    board.setMove(cell, this.marker)
+    board.setMove(cell, this.symbol)
   }
 }
 

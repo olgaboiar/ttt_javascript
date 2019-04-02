@@ -19,13 +19,6 @@ class Game {
   setCurrentPlayer (player1, player2) {
     this.currentPlayer = player1
     this.nextPlayer = player2
-    // if (player1.marker === 'x') {
-    //   this.currentPlayer = player1
-    //   this.nextPlayer = player2
-    // } else {
-    //   this.currentPlayer = player2
-    //   this.nextPlayer = player1
-    // }
   }
 
   switch (currentPlayer, nextPlayer) {
@@ -33,17 +26,11 @@ class Game {
   }
 
   createPlayers (humanSymbol, computerSymbol, gameRules) {
-    this.player1 = new Human('x', this.ui, humanSymbol)
-    this.player2 = new Computer('o', this.ui, computerSymbol, gameRules)
+    this.player1 = new Human(this.ui, humanSymbol)
+    this.player2 = new Computer(this.ui, computerSymbol, gameRules)
   }
 
   play (board, currentPlayer, nextPlayer) {
-    // console.log('game play')
-    // if (!this.gameRules.gameOver(board)) {
-    //   console.log('game not over')
-    //   currentPlayer.move(board)
-    //   this.switch(currentPlayer, nextPlayer)
-    // }
     this.ui.play(board, currentPlayer, nextPlayer)
   }
 }
