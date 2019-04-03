@@ -33,19 +33,27 @@ class Web {
   }
 
   move (player, board, spot, gameRules) {
-    player.move(spot, board)
+    board.setMove(spot, player.symbol)
     this.showMove(this.htmlCells[spot], player)
     if (gameRules.gameOver(board)) this.showWinner(player)
   }
 
+  computerMove (gameBoard, computer, human, gameRules) {
+    let spot = computer.getMove(gameBoard, human.symbol)
+    this.move(computer, gameBoard, spot, gameRules)
+  }
+
   play (gameBoard, currentPlayer, nextPlayer, gameRules) {
+    if (!gameRules.gameOver(gameBoard) && !this.humanTurn(currentPlayer.symbol)) {
+      this.computerMove(gameBoard, currentPlayer, nextPlayer, gameRules)
+      nextPlayer = [currentPlayer, currentPlayer = nextPlayer][0]
+    }
     gameBoard.spots.forEach((cell, index) => {
       this.htmlCells[index].addEventListener('click', () => {
         if (this.hasClass(this.htmlCells[index], currentPlayer.symbol) || this.hasClass(this.htmlCells[index], nextPlayer.symbol) || gameRules.gameOver(gameBoard) || !this.humanTurn(currentPlayer.symbol)) return false
         this.move(currentPlayer, gameBoard, index, gameRules)
         if (!gameRules.gameOver(gameBoard)) {
-          let spot = nextPlayer.getMove(gameBoard, currentPlayer.symbol)
-          this.move(nextPlayer, gameBoard, spot, gameRules)
+          this.computerMove(gameBoard, nextPlayer, currentPlayer, gameRules)
         }
       }, false)
     })

@@ -29,34 +29,18 @@ describe('Game', function () {
     expect(spy).to.have.been.called
   })
 
-  it('should return an x player', function () {
-    game.setCurrentPlayer(playerX, playerO)
-    expect(game.currentPlayer.symbol).to.equal('x')
-  })
-
-  it('should return an o player', function () {
-    game.setCurrentPlayer(playerX, playerO)
-    expect(game.nextPlayer.symbol).to.equal('o')
-  })
-
-  it('should return an o player as current player after switching', function () {
-    game.setCurrentPlayer(playerX, playerO)
-    game.switch(game.currentPlayer, game.nextPlayer)
-    expect(game.currentPlayer.symbol).to.equal('x')
-  })
-
   it('should be Null before players are created', function () {
-    expect(game.player1).to.equal(null)
+    expect(game.currentPlayer).to.equal(null)
   })
 
   it('should create x player', function () {
-    game.createPlayers('x', 'o', gameRules)
-    expect(game.player1.symbol).to.equal('x')
+    game.createPlayers('x', 'o', gameRules, 'x')
+    expect(game.currentPlayer.symbol).to.equal('o')
   })
 
   it('should create o player', function () {
-    game.createPlayers('x', 'o', gameRules)
-    expect(game.player2.symbol).to.equal('o')
+    game.createPlayers('x', 'o', gameRules, 'x')
+    expect(game.nextPlayer.symbol).to.equal('x')
   })
 
   it('should call the ui play method', function () {

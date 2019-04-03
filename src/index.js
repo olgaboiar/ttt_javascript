@@ -4,15 +4,14 @@ import GameRules from './classes/GameRules'
 import Web from './classes/Web'
 import UI from './classes/UI'
 
-function NewGame (humanSymbol, computerSymbol, difficultyLevel) {
+function NewGame (humanSymbol, computerSymbol, difficultyLevel, firstToMove) {
   let gameRules = new GameRules()
   let gameBoard = new Board()
   let web = new Web(humanSymbol, computerSymbol)
   let ui = new UI(gameRules, web)
   let game = new Game(gameRules, gameBoard, ui, difficultyLevel)
-  game.createPlayers(humanSymbol, computerSymbol, gameRules, difficultyLevel)
+  game.createPlayers(humanSymbol, computerSymbol, gameRules, difficultyLevel, firstToMove)
   game.printBoard()
-  game.setCurrentPlayer(game.player1, game.player2)
   game.play(gameBoard, game.currentPlayer, game.nextPlayer)
 }
 
@@ -25,6 +24,8 @@ document.addEventListener('DOMContentLoaded', event => {
     var computerSymbol = optionsForComputer.options[optionsForComputer.selectedIndex].value
     var optionsForDifficulty = document.getElementById('difficulty-level')
     var difficultyLevel = optionsForDifficulty.options[optionsForDifficulty.selectedIndex].value
-    NewGame(humanSymbol, computerSymbol, difficultyLevel)
+    var optionsForMove = document.getElementById('first-move')
+    var firstToMove = optionsForMove.options[optionsForMove.selectedIndex].value
+    NewGame(humanSymbol, computerSymbol, difficultyLevel, firstToMove)
   })
 })

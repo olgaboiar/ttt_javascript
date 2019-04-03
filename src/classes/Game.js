@@ -5,8 +5,6 @@ class Game {
   constructor (gameRules, board, ui, difficultyLevel) {
     this.currentPlayer = null
     this.nextPlayer = null
-    this.player1 = null
-    this.player2 = null
     this.gameRules = gameRules
     this.board = board
     this.ui = ui
@@ -17,18 +15,18 @@ class Game {
     this.ui.printBoard()
   }
 
-  setCurrentPlayer (player1, player2) {
-    this.currentPlayer = player1
-    this.nextPlayer = player2
+  createPlayers (humanSymbol, computerSymbol, gameRules, difficultyLevel, firstToMove) {
+    if (firstToMove === 'human') {
+      this.currentPlayer = new Human(this.ui, humanSymbol)
+      this.nextPlayer = new Computer(this.ui, computerSymbol, gameRules, difficultyLevel)
+    } else {
+      this.currentPlayer = new Computer(this.ui, computerSymbol, gameRules, difficultyLevel)
+      this.nextPlayer = new Human(this.ui, humanSymbol)
+    }
   }
 
   switch (currentPlayer, nextPlayer) {
     [currentPlayer, nextPlayer] = [nextPlayer, currentPlayer]
-  }
-
-  createPlayers (humanSymbol, computerSymbol, gameRules, difficultyLevel) {
-    this.player1 = new Human(this.ui, humanSymbol)
-    this.player2 = new Computer(this.ui, computerSymbol, gameRules, difficultyLevel)
   }
 
   play (board, currentPlayer, nextPlayer) {
