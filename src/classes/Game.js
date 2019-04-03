@@ -2,7 +2,7 @@ const Computer = require('./Computer.js')
 const Human = require('./Human.js')
 
 class Game {
-  constructor (gameRules, board, ui) {
+  constructor (gameRules, board, ui, difficultyLevel) {
     this.currentPlayer = null
     this.nextPlayer = null
     this.player1 = null
@@ -10,6 +10,7 @@ class Game {
     this.gameRules = gameRules
     this.board = board
     this.ui = ui
+    this.difficultyLevel = difficultyLevel
   }
 
   printBoard () {
@@ -25,9 +26,9 @@ class Game {
     [currentPlayer, nextPlayer] = [nextPlayer, currentPlayer]
   }
 
-  createPlayers (humanSymbol, computerSymbol, gameRules) {
+  createPlayers (humanSymbol, computerSymbol, gameRules, difficultyLevel) {
     this.player1 = new Human(this.ui, humanSymbol)
-    this.player2 = new Computer(this.ui, computerSymbol, gameRules)
+    this.player2 = new Computer(this.ui, computerSymbol, gameRules, difficultyLevel)
   }
 
   play (board, currentPlayer, nextPlayer) {

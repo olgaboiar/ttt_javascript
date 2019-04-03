@@ -43,8 +43,10 @@ class Web {
       this.htmlCells[index].addEventListener('click', () => {
         if (this.hasClass(this.htmlCells[index], currentPlayer.symbol) || this.hasClass(this.htmlCells[index], nextPlayer.symbol) || gameRules.gameOver(gameBoard) || !this.humanTurn(currentPlayer.symbol)) return false
         this.move(currentPlayer, gameBoard, index, gameRules)
-        let spot = nextPlayer.getMove(gameBoard, currentPlayer.symbol)
-        this.move(nextPlayer, gameBoard, spot, gameRules)
+        if (!gameRules.gameOver(gameBoard)) {
+          let spot = nextPlayer.getMove(gameBoard, currentPlayer.symbol)
+          this.move(nextPlayer, gameBoard, spot, gameRules)
+        }
       }, false)
     })
   }

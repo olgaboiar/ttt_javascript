@@ -11,7 +11,7 @@ const Board = require('./../src/classes/Board.js')
 const Web = require('./../src/classes/Web.js')
 const Ui = require('./../src/classes/Ui.js')
 
-var computer, board, gameRules, ui, web
+var computer, board, gameRules, ui, web, hardComputer, easyComputer, mediumComputer
 
 describe('Computer', function () {
   before(function () {
@@ -19,6 +19,9 @@ describe('Computer', function () {
     web = new Web()
     ui = new Ui(gameRules, web)
     computer = new Computer(ui, 'o', gameRules)
+    hardComputer = new Computer(ui, 'o', gameRules, 'hard')
+    easyComputer = new Computer(ui, 'o', gameRules, 'easy')
+    mediumComputer = new Computer(ui, 'o', gameRules, 'medium')
   })
 
   beforeEach(function () {
@@ -76,16 +79,30 @@ describe('Computer', function () {
   })
 
   it('should call the setOpponent method with opponent symbol as argument', function () {
-    let spy = sinon.spy(computer, 'setOpponent')
+    let spy = sinon.spy(hardComputer, 'setOpponent')
     board.spots = ['x', 'x', '', 'o', 'o', '', '', '', '']
-    computer.getMove(board, 'x')
+    hardComputer.getMove(board, 'x')
     expect(spy).to.have.been.calledWith('x')
   })
 
-  it('should call the calculateMoves method with the board andopponent symbol as arguments', function () {
-    let spy = sinon.spy(computer, 'calculateMoves')
+  it('should call the randomMove method with board as argument', function () {
+    let spy = sinon.spy(easyComputer, 'randomMove')
     board.spots = ['x', 'x', '', 'o', 'o', '', '', '', '']
-    computer.getMove(board, 'x')
+    easyComputer.getMove(board, 'x')
+    expect(spy).to.have.been.calledWith(board)
+  })
+
+  it('should call the randomMove method with board as argument', function () {
+    let spy = sinon.spy(mediumComputer, 'randomMove')
+    board.spots = ['x', 'x', '', 'o', 'o', '', '', '', '']
+    mediumComputer.getMove(board, 'x')
+    expect(spy).to.have.been.calledWith(board)
+  })
+
+  it('should call the calculateMoves method with the board andopponent symbol as arguments', function () {
+    let spy = sinon.spy(hardComputer, 'calculateMoves')
+    board.spots = ['x', 'x', '', 'o', 'o', '', '', '', '']
+    hardComputer.getMove(board, 'x')
     expect(spy).to.have.been.calledWith(board, 'x')
   })
 

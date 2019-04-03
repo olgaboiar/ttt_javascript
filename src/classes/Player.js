@@ -1,8 +1,9 @@
 class Player {
-  constructor (ui, symbol, gameRules) {
+  constructor (ui, symbol, gameRules, difficultyLevel) {
     this.ui = ui
     this.symbol = symbol
     this.gameRules = gameRules
+    this.difficultyLevel = difficultyLevel
     this.opponent = null
   }
 

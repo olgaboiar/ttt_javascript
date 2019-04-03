@@ -7,10 +7,15 @@ class Computer extends Player {
   }
 
   getMove (board, opponentSymbol) {
-    // return this.randomMove(board)
-    this.setOpponent(opponentSymbol)
-    this.calculateMoves(board, opponentSymbol)
-    return bestMove
+    if (this.difficultyLevel === 'medium') {
+      return this.centerMove(board)
+    }
+    if (this.difficultyLevel === 'hard') {
+      this.setOpponent(opponentSymbol)
+      this.calculateMoves(board, opponentSymbol)
+      return bestMove
+    }
+    return this.randomMove(board)
   }
 
   setOpponent (symbol) {
@@ -23,6 +28,13 @@ class Computer extends Player {
       cell = Math.floor(Math.random() * board.spots.length)
     }
     return cell
+  }
+
+  centerMove (board) {
+    if (board.spots[4] === '') {
+      return 4
+    }
+    return this.randomMove(board)
   }
 
   moveScore (board, lastMove, depth) {
