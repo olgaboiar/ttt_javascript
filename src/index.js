@@ -7,7 +7,7 @@ import UI from './classes/UI'
 function NewGame (humanSymbol, computerSymbol) {
   let gameRules = new GameRules()
   let gameBoard = new Board()
-  let web = new Web()
+  let web = new Web(humanSymbol, computerSymbol)
   let ui = new UI(gameRules, web)
   let game = new Game(gameRules, gameBoard, ui)
   game.createPlayers(humanSymbol, computerSymbol, gameRules)

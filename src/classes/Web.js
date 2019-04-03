@@ -1,5 +1,7 @@
 class Web {
-  constructor () {
+  constructor (humanSymbol, computerSymbol) {
+    this.humanSymbol = humanSymbol
+    this.computerSymbol = computerSymbol
     this.board = null
     this.htmlCells = null
   }
@@ -22,20 +24,27 @@ class Web {
     this.htmlCells = [...this.board.children]
   }
 
+  humanTurn (symbol) {
+    if (symbol === this.humanSymbol) {
+      return true
+    } else {
+      return false
+    }
+  }
+
+  move (player, board, spot, gameRules) {
+    player.move(spot, board)
+    this.showMove(this.htmlCells[spot], player)
+    if (gameRules.gameOver(board)) this.showWinner(player)
+  }
+
   play (gameBoard, currentPlayer, nextPlayer, gameRules) {
     gameBoard.spots.forEach((cell, index) => {
       this.htmlCells[index].addEventListener('click', () => {
-        if (this.hasClass(this.htmlCells[index], currentPlayer.symbol) || this.hasClass(this.htmlCells[index], nextPlayer.symbol) || gameRules.gameOver(gameBoard)) return false
-        gameBoard.setMove(index, currentPlayer.symbol)
-        this.showMove(this.htmlCells[index], currentPlayer)
-        if (gameRules.gameOver(gameBoard)) {
-          this.showWinner(currentPlayer)
-        } else {
-          let spot = nextPlayer.getMove(gameBoard, currentPlayer.symbol)
-          gameBoard.setMove(spot, nextPlayer.symbol)
-          this.showMove(this.htmlCells[spot], nextPlayer)
-          if (gameRules.gameOver(gameBoard)) this.showWinner(nextPlayer)
-        }
+        if (this.hasClass(this.htmlCells[index], currentPlayer.symbol) || this.hasClass(this.htmlCells[index], nextPlayer.symbol) || gameRules.gameOver(gameBoard) || !this.humanTurn(currentPlayer.symbol)) return false
+        this.move(currentPlayer, gameBoard, index, gameRules)
+        let spot = nextPlayer.getMove(gameBoard, currentPlayer.symbol)
+        this.move(nextPlayer, gameBoard, spot, gameRules)
       }, false)
     })
   }
