@@ -24,42 +24,33 @@ class Web {
     this.htmlCells = [...this.board.children]
   }
 
-  humanTurn (symbol) {
-    if (symbol === this.humanSymbol) {
-      return true
-    } else {
-      return false
-    }
-  }
-
   move (player, board, spot, gameRules) {
     board.setMove(spot, player.symbol)
-    this.showMove(this.htmlCells[spot], player)
-    if (gameRules.gameOver(board)) this.showWinner(player)
+    this.showMove(spot, player)
+    if (gameRules.gameOver(board) && gameRules.win(board)) this.showWinner(player)
   }
 
-  computerMove (gameBoard, computer, human, gameRules) {
-    let spot = computer.getMove(gameBoard, human.symbol)
-    this.move(computer, gameBoard, spot, gameRules)
+  notClickable (currentPlayer, nextPlayer, gameBoard, gameRules, index) {
+    return this.hasClass(this.htmlCells[index], currentPlayer.symbol) ||
+           this.hasClass(this.htmlCells[index], nextPlayer.symbol) ||
+           gameRules.gameOver(gameBoard)
   }
 
-  play (gameBoard, currentPlayer, nextPlayer, gameRules) {
-    if (!gameRules.gameOver(gameBoard) && !this.humanTurn(currentPlayer.symbol)) {
-      this.computerMove(gameBoard, currentPlayer, nextPlayer, gameRules)
-      nextPlayer = [currentPlayer, currentPlayer = nextPlayer][0]
-    }
+  play (gameBoard, currentPlayer, nextPlayer, gameRules, humanTurn) {
     gameBoard.spots.forEach((cell, index) => {
       this.htmlCells[index].addEventListener('click', () => {
-        if (this.hasClass(this.htmlCells[index], currentPlayer.symbol) || this.hasClass(this.htmlCells[index], nextPlayer.symbol) || gameRules.gameOver(gameBoard) || !this.humanTurn(currentPlayer.symbol)) return false
+        if (this.notClickable(currentPlayer, nextPlayer, gameBoard, gameRules, index) || !humanTurn) return false
         this.move(currentPlayer, gameBoard, index, gameRules)
         if (!gameRules.gameOver(gameBoard)) {
-          this.computerMove(gameBoard, nextPlayer, currentPlayer, gameRules)
+          let spot = nextPlayer.getMove(gameBoard, currentPlayer.symbol)
+          this.move(nextPlayer, gameBoard, spot, gameRules)
         }
       }, false)
     })
   }
 
-  showMove (cell, player) {
+  showMove (spot, player) {
+    let cell = this.htmlCells[spot]
     this.addClass(cell, player.symbol)
   }
 

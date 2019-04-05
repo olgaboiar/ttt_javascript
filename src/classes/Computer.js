@@ -2,10 +2,6 @@ const Player = require('./Player.js')
 const Board = require('./Board.js')
 var index, bestMove
 class Computer extends Player {
-  move (spot, board) {
-    board.setMove(spot, this.symbol)
-  }
-
   getMove (board, opponentSymbol) {
     if (this.difficultyLevel === 'medium') {
       return this.centerMove(board)

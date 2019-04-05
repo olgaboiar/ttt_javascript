@@ -8,8 +8,16 @@ class UI {
     this.webUi.printBoard()
   }
 
-  play (gameBoard, currentPlayer, nextPlayer) {
-    this.webUi.play(gameBoard, currentPlayer, nextPlayer, this.gameRules)
+  play (gameBoard, currentPlayer, nextPlayer, turn) {
+    this.webUi.play(gameBoard, currentPlayer, nextPlayer, this.gameRules, turn)
+  }
+
+  showMove (cell, player) {
+    this.webUi.showMove(cell, player)
+  }
+
+  showWinner (player) {
+    this.webUi.showWinner(player)
   }
 }
 

@@ -1,6 +1,6 @@
 const Computer = require('./Computer.js')
 const Human = require('./Human.js')
-
+var human, computer
 class Game {
   constructor (gameRules, board, ui, difficultyLevel) {
     this.currentPlayer = null
@@ -15,22 +15,43 @@ class Game {
     this.ui.printBoard()
   }
 
-  createPlayers (humanSymbol, computerSymbol, gameRules, difficultyLevel, firstToMove) {
-    if (firstToMove === 'human') {
-      this.currentPlayer = new Human(this.ui, humanSymbol)
-      this.nextPlayer = new Computer(this.ui, computerSymbol, gameRules, difficultyLevel)
+  createPlayers (humanSymbol, computerSymbol, gameRules, difficultyLevel, firstToMoveComp) {
+    human = new Human(this.ui, humanSymbol)
+    computer = new Computer(this.ui, computerSymbol, gameRules, difficultyLevel)
+    if (!firstToMoveComp) {
+      this.currentPlayer = human
+      this.nextPlayer = computer
     } else {
-      this.currentPlayer = new Computer(this.ui, computerSymbol, gameRules, difficultyLevel)
-      this.nextPlayer = new Human(this.ui, humanSymbol)
+      this.currentPlayer = computer
+      this.nextPlayer = human
     }
   }
 
-  switch (currentPlayer, nextPlayer) {
-    [currentPlayer, nextPlayer] = [nextPlayer, currentPlayer]
+  humanTurn (symbol) {
+    if (symbol === human.symbol) {
+      return true
+    } else {
+      return false
+    }
+  }
+
+  computerMove (gameBoard, computer, human, gameRules) {
+    let spot = computer.getMove(gameBoard, human.symbol)
+    this.move(computer, gameBoard, spot, gameRules)
+  }
+
+  move (player, board, spot, gameRules) {
+    board.setMove(spot, player.symbol)
+    this.ui.showMove(spot, player)
+    if (gameRules.gameOver(board) && gameRules.win(board)) this.ui.showWinner(player)
   }
 
   play (board, currentPlayer, nextPlayer) {
-    this.ui.play(board, currentPlayer, nextPlayer)
+    if (!this.gameRules.gameOver(board) && !this.humanTurn(currentPlayer.symbol)) {
+      this.computerMove(board, currentPlayer, nextPlayer, this.gameRules)
+      nextPlayer = [currentPlayer, currentPlayer = nextPlayer][0]
+    }
+    this.ui.play(board, currentPlayer, nextPlayer, this.humanTurn(currentPlayer.symbol))
   }
 }
 
