@@ -32,6 +32,20 @@ class Menu {
       html: message, classes: 'teal darken-1'
     })
   }
+
+  initiateNewGame (tictactoe) {
+    var humanSymbol = this.getHumanSymbol()
+    var computerSymbol = this.getComputerSymbol()
+    var difficultyLevel = this.getDifficultyLevel()
+    var firstToMoveComp = this.getFirstToMoveComp()
+    if (humanSymbol === '' || computerSymbol === '') {
+      this.errorMessage('Choose symbols for players!!!')
+    } else if (humanSymbol === computerSymbol) {
+      this.errorMessage('Players sumbols must be different')
+    } else {
+      tictactoe.initiateGame(humanSymbol, computerSymbol, difficultyLevel, firstToMoveComp)
+    }
+  }
 }
 
 module.exports = Menu
