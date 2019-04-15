@@ -36,15 +36,19 @@ class Web {
            gameRules.gameOver(gameBoard)
   }
 
+  playersMove (currentPlayer, nextPlayer, gameBoard, gameRules, index, humanTurn) {
+    this.move(currentPlayer, gameBoard, index, gameRules)
+    if (!gameRules.gameOver(gameBoard)) {
+      let spot = nextPlayer.getMove(gameBoard, currentPlayer.symbol)
+      this.move(nextPlayer, gameBoard, spot, gameRules)
+    }
+  }
+
   play (gameBoard, currentPlayer, nextPlayer, gameRules, humanTurn) {
     gameBoard.spots.forEach((cell, index) => {
       this.htmlCells[index].addEventListener('click', () => {
         if (this.notClickable(currentPlayer, nextPlayer, gameBoard, gameRules, index) || !humanTurn) return false
-        this.move(currentPlayer, gameBoard, index, gameRules)
-        if (!gameRules.gameOver(gameBoard)) {
-          let spot = nextPlayer.getMove(gameBoard, currentPlayer.symbol)
-          this.move(nextPlayer, gameBoard, spot, gameRules)
-        }
+        this.playersMove(currentPlayer, nextPlayer, gameBoard, gameRules, index)
       }, false)
     })
   }
