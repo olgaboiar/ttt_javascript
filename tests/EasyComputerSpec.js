@@ -1,32 +1,32 @@
 /* eslint-env mocha */
-const assert = require('assert')
 const chai = require('chai')
+const sinon = require('sinon')
 const sinonChai = require('sinon-chai')
+const expect = chai.expect
 chai.use(sinonChai)
 const GameRules = require('./../src/classes/GameRules.js')
-const Computer = require('./../src/classes/Computer.js')
+const EasyComputer = require('./../src/classes/EasyComputer.js')
 const Board = require('./../src/classes/Board.js')
 const Web = require('./../src/classes/Web.js')
 const Ui = require('./../src/classes/Ui.js')
 
 var computer, board, gameRules, ui, web
 
-describe('Computer', function () {
+describe('EasyComputer', function () {
   before(function () {
     gameRules = new GameRules()
     web = new Web()
     ui = new Ui(gameRules, web)
-    computer = new Computer(ui, 'o', gameRules)
+    computer = new EasyComputer(ui, 'o', gameRules)
   })
 
   beforeEach(function () {
     board = new Board()
   })
 
-  it('should return 1 or 2 or 3 for a board with only those cell availabls', function () {
-    board.spots = ['x', '', '', '', 'o', 'x', 'o', 'o', 'x']
-    let possible = [1, 2, 3]
-    let actual = computer.randomMove(board)
-    assert(possible.includes(actual))
+  it('should call the randomMove method with board as argument', function () {
+    let spy = sinon.spy(computer, 'randomMove')
+    computer.getMove(board)
+    expect(spy).to.have.been.calledWith(board)
   })
 })

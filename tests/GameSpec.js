@@ -34,12 +34,12 @@ describe('Game', function () {
   })
 
   it('should create x player', function () {
-    game.createPlayers('x', 'o', gameRules, 'x')
+    game.createPlayers('x', 'o', gameRules, 'easy', true)
     expect(game.currentPlayer.symbol).to.equal('o')
   })
 
   it('should create o player', function () {
-    game.createPlayers('x', 'o', gameRules, 'x')
+    game.createPlayers('x', 'o', gameRules, 'medium', true)
     expect(game.nextPlayer.symbol).to.equal('x')
   })
 
