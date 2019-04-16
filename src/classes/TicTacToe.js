@@ -1,5 +1,6 @@
 import Board from './Board'
 import Game from './Game'
+import Settings from './Settings'
 var humanSymbol, computerSymbol, difficultyLevel, firstToMoveComp
 
 class TicTacToe {
@@ -11,11 +12,11 @@ class TicTacToe {
     this.menu.showMenu()
   }
 
-  initiateGame (gameRules, ui, humanSymbol, computerSymbol, difficultyLevel, firstToMoveComp) {
+  initiateGame (gameRules, ui, gameSettings) {
     let gameBoard = new Board()
-    ui.setSymbols(humanSymbol, computerSymbol)
-    let game = new Game(gameRules, gameBoard, ui, difficultyLevel)
-    game.createPlayers(humanSymbol, computerSymbol, gameRules, difficultyLevel, firstToMoveComp)
+    ui.setSymbols(gameSettings.humanSymbol, gameSettings.computerSymbol)
+    let game = new Game(gameRules, gameBoard, ui, gameSettings.difficultyLevel)
+    game.createPlayers(gameSettings.humanSymbol, gameSettings.computerSymbol, gameRules, gameSettings.difficultyLevel, gameSettings.firstToMoveComp)
     game.printBoard()
     game.play(gameBoard, game.currentPlayer, game.nextPlayer)
   }
@@ -30,7 +31,8 @@ class TicTacToe {
     } else if (humanSymbol === computerSymbol) {
       this.menu.errorMessage('Players sumbols must be different')
     } else {
-      this.initiateGame(gameRules, ui, humanSymbol, computerSymbol, difficultyLevel, firstToMoveComp)
+      let gameSettings = new Settings(humanSymbol, computerSymbol, difficultyLevel, firstToMoveComp)
+      this.initiateGame(gameRules, ui, gameSettings)
     }
   }
 }
