@@ -1,36 +1,30 @@
 class Menu {
-  initSelection () {
-    var elems = document.querySelectorAll('select')
-    M.FormSelect.init(elems, {})
+  constructor (ui) {
+    this.ui = ui
+  }
+
+  showMenu () {
+    this.ui.showMenu()
   }
 
   getHumanSymbol () {
-    var optionsForHuman = document.getElementById('human-symbol')
-    return optionsForHuman.options[optionsForHuman.selectedIndex].value
+    return this.ui.getHumanSymbol()
   }
 
   getComputerSymbol () {
-    var optionsForComputer = document.getElementById('computer-symbol')
-    return optionsForComputer.options[optionsForComputer.selectedIndex].value
+    return this.ui.getComputerSymbol()
   }
 
   getDifficultyLevel () {
-    var optionsForDifficulty = document.getElementById('difficulty-level')
-    for (var i = 0, length = optionsForDifficulty.length; i < length; i++) {
-      if (optionsForDifficulty[i].checked) {
-        return optionsForDifficulty[i].value
-      }
-    }
+    return this.ui.getDifficultyLevel()
   }
 
   getFirstToMoveComp () {
-    return document.getElementById('first-move').checked
+    return this.ui.getFirstToMoveComp()
   }
 
   errorMessage (message) {
-    M.toast({
-      html: message, classes: 'teal darken-1'
-    })
+    this.ui.errorMessage(message)
   }
 
   initiateNewGame (tictactoe) {

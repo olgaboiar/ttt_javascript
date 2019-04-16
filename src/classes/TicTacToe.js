@@ -1,8 +1,5 @@
 import Board from './Board'
 import Game from './Game'
-import GameRules from './GameRules'
-import Web from './Web'
-import UI from './UI'
 var humanSymbol, computerSymbol, difficultyLevel, firstToMoveComp
 
 class TicTacToe {
@@ -11,21 +8,19 @@ class TicTacToe {
   }
 
   showMenu () {
-    this.menu.initSelection()
+    this.menu.showMenu()
   }
 
-  initiateGame (humanSymbol, computerSymbol, difficultyLevel, firstToMoveComp) {
-    let gameRules = new GameRules()
+  initiateGame (gameRules, ui, humanSymbol, computerSymbol, difficultyLevel, firstToMoveComp) {
     let gameBoard = new Board()
-    let web = new Web(humanSymbol, computerSymbol)
-    let ui = new UI(gameRules, web)
+    ui.setSymbols(humanSymbol, computerSymbol)
     let game = new Game(gameRules, gameBoard, ui, difficultyLevel)
     game.createPlayers(humanSymbol, computerSymbol, gameRules, difficultyLevel, firstToMoveComp)
     game.printBoard()
     game.play(gameBoard, game.currentPlayer, game.nextPlayer)
   }
 
-  setUpGame () {
+  setUpGame (gameRules, ui) {
     humanSymbol = this.menu.getHumanSymbol()
     computerSymbol = this.menu.getComputerSymbol()
     difficultyLevel = this.menu.getDifficultyLevel()
@@ -35,7 +30,7 @@ class TicTacToe {
     } else if (humanSymbol === computerSymbol) {
       this.menu.errorMessage('Players sumbols must be different')
     } else {
-      this.initiateGame(humanSymbol, computerSymbol, difficultyLevel, firstToMoveComp)
+      this.initiateGame(gameRules, ui, humanSymbol, computerSymbol, difficultyLevel, firstToMoveComp)
     }
   }
 }

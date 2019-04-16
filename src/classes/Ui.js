@@ -8,6 +8,34 @@ class UI {
     this.webUi.printBoard()
   }
 
+  setSymbols (humanSymbol, computerSymbol) {
+    this.webUi.setSymbols(humanSymbol, computerSymbol)
+  }
+
+  showMenu () {
+    this.webUi.initMenuSelection()
+  }
+
+  getHumanSymbol () {
+    return this.webUi.getHumanSymbol()
+  }
+
+  getComputerSymbol () {
+    return this.webUi.getComputerSymbol()
+  }
+
+  getDifficultyLevel () {
+    return this.webUi.getDifficultyLevel()
+  }
+
+  getFirstToMoveComp () {
+    return this.webUi.getFirstToMoveComp()
+  }
+
+  errorMessage (message) {
+    this.webUi.errorMessage(message)
+  }
+
   play (gameBoard, currentPlayer, nextPlayer, turn) {
     this.webUi.play(gameBoard, currentPlayer, nextPlayer, this.gameRules, turn)
   }

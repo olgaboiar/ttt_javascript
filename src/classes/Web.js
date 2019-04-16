@@ -1,9 +1,14 @@
 class Web {
-  constructor (humanSymbol, computerSymbol) {
-    this.humanSymbol = humanSymbol
-    this.computerSymbol = computerSymbol
+  constructor () {
+    this.humanSymbol = null
+    this.computerSymbol = null
     this.board = null
     this.htmlCells = null
+  }
+
+  setSymbols (humanSymbol, computerSymbol) {
+    this.humanSymbol = humanSymbol
+    this.computerSymbol = computerSymbol
   }
 
   setBoard () {
@@ -28,6 +33,40 @@ class Web {
     board.setMove(spot, player.symbol)
     this.showMove(spot, player)
     if (gameRules.gameOver(board) && gameRules.win(board)) this.showWinner(player)
+  }
+
+  initMenuSelection () {
+    var elems = document.querySelectorAll('select')
+    M.FormSelect.init(elems, {})
+  }
+
+  getHumanSymbol () {
+    var optionsForHuman = document.getElementById('human-symbol')
+    return optionsForHuman.options[optionsForHuman.selectedIndex].value
+  }
+
+  getComputerSymbol () {
+    var optionsForComputer = document.getElementById('computer-symbol')
+    return optionsForComputer.options[optionsForComputer.selectedIndex].value
+  }
+
+  getDifficultyLevel () {
+    var optionsForDifficulty = document.getElementById('difficulty-level')
+    for (var i = 0, length = optionsForDifficulty.length; i < length; i++) {
+      if (optionsForDifficulty[i].checked) {
+        return optionsForDifficulty[i].value
+      }
+    }
+  }
+
+  getFirstToMoveComp () {
+    return document.getElementById('first-move').checked
+  }
+
+  errorMessage (message) {
+    M.toast({
+      html: message, classes: 'teal darken-1'
+    })
   }
 
   notClickable (currentPlayer, nextPlayer, gameBoard, gameRules, index) {
