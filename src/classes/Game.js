@@ -1,4 +1,3 @@
-const Computer = require('./Computer.js')
 const EasyComputer = require('./EasyComputer.js')
 const MediumComputer = require('./MediumComputer.js')
 const HardComputer = require('./HardComputer.js')
@@ -20,8 +19,8 @@ class Game {
 
   createPlayers (humanSymbol, computerSymbol, gameRules, difficultyLevel, firstToMoveComp) {
     human = new Human(this.ui, humanSymbol)
-    let difficulty = difficultyLevel.replace(/\b\w/g, l => l.toUpperCase())
-    eval('computer = new ' + difficulty + 'Computer(this.ui, computerSymbol, gameRules)')
+    let difficulty = difficultyLevel.replace(/\b\w/g, l => l.toUpperCase()) + 'Computer'
+    computer = new global[difficulty](this.ui, computerSymbol, gameRules)
     if (!firstToMoveComp) {
       this.currentPlayer = human
       this.nextPlayer = computer

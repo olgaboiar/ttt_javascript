@@ -67,3 +67,4 @@ class HardComputer extends Computer {
 }
 
 module.exports = HardComputer
+global.HardComputer = HardComputer

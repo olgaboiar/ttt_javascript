@@ -1,7 +1,7 @@
 const Computer = require('./Computer.js')
 
 class MediumComputer extends Computer {
-  getMove (board, opponentSymbol) {
+  getMove (board) {
     return this.centerMove(board)
   }
 
@@ -14,3 +14,4 @@ class MediumComputer extends Computer {
 }
 
 module.exports = MediumComputer
+global.MediumComputer = MediumComputer
