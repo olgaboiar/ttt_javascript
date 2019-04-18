@@ -1,48 +1,60 @@
-const Computer = require('./Computer.js')
+const EasyComputer = require('./EasyComputer.js')
+const MediumComputer = require('./MediumComputer.js')
+const HardComputer = require('./HardComputer.js')
 const Human = require('./Human.js')
-
+var human, computer
 class Game {
-  constructor (gameRules, board, ui) {
+  constructor (gameRules, board, ui, difficultyLevel) {
     this.currentPlayer = null
     this.nextPlayer = null
-    this.player1 = null
-    this.player2 = null
     this.gameRules = gameRules
     this.board = board
     this.ui = ui
+    this.difficultyLevel = difficultyLevel
   }
 
   printBoard () {
     this.ui.printBoard()
   }
 
-  setCurrentPlayer (player1, player2) {
-    if (player1.marker === 'x') {
-      this.currentPlayer = player1
-      this.nextPlayer = player2
+  createPlayers (humanSymbol, computerSymbol, gameRules, difficultyLevel, firstToMoveComp) {
+    human = new Human(this.ui, humanSymbol)
+    let difficulty = difficultyLevel.replace(/\b\w/g, l => l.toUpperCase()) + 'Computer'
+    computer = new global[difficulty](this.ui, computerSymbol, gameRules)
+    if (!firstToMoveComp) {
+      this.currentPlayer = human
+      this.nextPlayer = computer
     } else {
-      this.currentPlayer = player2
-      this.nextPlayer = player1
+      this.currentPlayer = computer
+      this.nextPlayer = human
     }
   }
 
-  switch (currentPlayer, nextPlayer) {
-    [currentPlayer, nextPlayer] = [nextPlayer, currentPlayer]
+  humanTurn (symbol) {
+    if (symbol === human.symbol) {
+      return true
+    } else {
+      return false
+    }
   }
 
-  createPlayers (humanSymbol, computerSymbol, gameRules) {
-    this.player1 = new Human('x', this.ui, humanSymbol)
-    this.player2 = new Computer('o', this.ui, computerSymbol, gameRules)
+  computerMove (gameBoard, computer, human, gameRules) {
+    let spot = computer.getMove(gameBoard, human.symbol)
+    this.move(computer, gameBoard, spot, gameRules)
+  }
+
+  move (player, board, spot, gameRules) {
+    board.setMove(spot, player.symbol)
+    this.ui.showMove(spot, player)
+    if (gameRules.gameOver(board) && gameRules.win(board)) this.ui.showWinner(player)
   }
 
   play (board, currentPlayer, nextPlayer) {
-    // console.log('game play')
-    // if (!this.gameRules.gameOver(board)) {
-    //   console.log('game not over')
-    //   currentPlayer.move(board)
-    //   this.switch(currentPlayer, nextPlayer)
-    // }
-    this.ui.play(board, currentPlayer, nextPlayer)
+    if (!this.gameRules.gameOver(board) && !this.humanTurn(currentPlayer.symbol)) {
+      this.computerMove(board, currentPlayer, nextPlayer, this.gameRules)
+      nextPlayer = [currentPlayer, currentPlayer = nextPlayer][0]
+    }
+    this.ui.play(board, currentPlayer, nextPlayer, this.humanTurn(currentPlayer.symbol))
   }
 }
 

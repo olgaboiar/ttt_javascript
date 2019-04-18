@@ -15,9 +15,7 @@ describe('GameRules', function () {
   })
 
   it('should return true for a board where 1, 2, and 3 are x', function () {
-    board.setMove(1, 'x')
-    board.setMove(2, 'x')
-    board.setMove(0, 'x')
+    board.spots = ['x', 'x', 'x', '', '', '', '', '', '']
     expect(gameRules.horizontalWin(board)).to.be.ok()
   })
 

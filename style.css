@@ -1,10 +1,14 @@
-body {
-    max-width: 80vh;
-    margin: auto;
+nav {
+    margin-bottom: 2vh;
 }
 
-select#gender option[value="donut"] {
-    background-image:url(images/don.svg);
+#newgame {
+    margin-top: 2vh;
+}
+#title {
+    font-family: 'Luckiest Guy', cursive;
+    font-size: 50px;
+    text-shadow: 0px 4px 4px #26a69a; 
 }
 
 #board {
@@ -12,6 +16,8 @@ select#gender option[value="donut"] {
 	height: 60vh;
 	position: relative;
     box-sizing: border-box;
+    margin-top: 15vh;
+    margin-left: 10vh;
 }
 
 .board_cell {
@@ -36,11 +42,8 @@ select#gender option[value="donut"] {
     border-bottom: none;
 }
 
-.x, .o {
+.apple::after, .bacon::after, .broccoli::after, .cherry::after, .cookie::after, .cupcake::after, .donut::after, .egg::after, .fries::after, .ice-cream::after, .pepper::after, .pizza::after, .soda::after, .strawberry::after, .taco::after {
     cursor: not-allowed;
-}
-
-.x::after, .o::after {
     position: absolute;
 	width: calc(100% - 60px);
 	height: calc(100% - 60px);
